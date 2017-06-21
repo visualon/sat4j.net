@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>org.sat4j.core</id>
+        <version>$version$</version>
+        <title>Sat4j Core</title>
+        <authors>Michael Kriese</authors>
+        <owners>VisualOn GmbH</owners>
+        <licenseUrl>http://www.eclipse.org/legal/epl-v10.html</licenseUrl>
+        <projectUrl>http://www.sat4j.org/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>
+            Sat4j is a full featured boolean reasoning library designed to bring state-of-the-art SAT technologies to the Java Virtual Machine.
+
+            This is the IKVM version; which is to say that this is compiled from Java to .NET
+        </description>
+        <releaseNotes></releaseNotes>
+        <tags>IKVM.NET, Java, .NET, SAT, Sat4j</tags>
+        <dependencies>
+            <dependency id="IKVM" version="8.1.5717.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\org.sat4j.core.dll" target="lib\net20" />
+    </files>
+</package>
