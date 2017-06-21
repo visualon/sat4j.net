@@ -15,7 +15,7 @@
             This is the IKVM version; which is to say that this is compiled from Java to .NET
         </description>
         <releaseNotes></releaseNotes>
-        <tags>IKVM.NET, Java, .NET, SAT, Sat4j</tags>
+        <tags>IKVM.NET Java .NET SAT Sat4j</tags>
         <dependencies>
             <dependency id="IKVM" version="8.1.5717.0" />
         </dependencies>
