@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Changed
 - Updated nuspec file.
+- Dynamic build.
 
 ## [2.3.5] - 2012-06-21
 ### Added
