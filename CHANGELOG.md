@@ -16,5 +16,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial release based on Sat4j 2.3.5
 
-[Unreleased]: https://github.com/ViceIce/unity.wcf/compare/v2.3.6...HEAD
-[3.5.2]: https://github.com/VisualOn/FeatureIDE.net/compare/v2.3.5...v2.3.6
+[Unreleased]: https://github.com/visualon/sat4j.net/compare/v2.3.6...HEAD
+[3.5.2]: https://github.com/visualon/sat4j.net/compare/v2.3.5...v2.3.6

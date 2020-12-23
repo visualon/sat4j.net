@@ -8,7 +8,7 @@
         <owners>VisualOn GmbH</owners>
         <license type="expression">EPL-1.0</license>
         <projectUrl>https://sat4j.org</projectUrl>
-        <repository type="git" url="https://github.com/visualOn/sat4j.net" />
+        <repository type="git" url="https://github.com/visualon/sat4j.net" />
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>
             Sat4j is a full featured boolean reasoning library designed to bring state-of-the-art SAT technologies to the Java Virtual Machine.
