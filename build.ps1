@@ -1,19 +1,17 @@
 #Requires -Version 5.1
 
 param(
-
-    [string] $version = "2.3.5",
-    [string] $assemblyversion = "2.0.0",
-    [string] $pre = $null
+  [string] $version = "2.3.6",
+  [string] $assemblyversion = "2.0.0",
+  [string] $pre = $null
 )
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
-$PSDefaultParameterValues['*:ErrorAction']='Stop'
+$PSDefaultParameterValues['*:ErrorAction'] = 'Stop'
 function ThrowOnNativeFailure {
-  if (-not $?)
-  {
-      throw 'Native Failure'
+  if (-not $?) {
+    throw 'Native Failure'
   }
 }
 
@@ -26,18 +24,18 @@ Write-Output "Downloading jars" | Out-Host
 Invoke-WebRequest -URI "$baseUri/org.ow2.sat4j.core/$version/org.ow2.sat4j.core-$version.jar" -OutFile bin/org.sat4j.core.jar
 Invoke-WebRequest -URI "$baseUri/org.ow2.sat4j.pb/$version/org.ow2.sat4j.pb-$version.jar" -OutFile bin/org.sat4j.pb.jar
 
-if($pre) {
-    $version += "-" + $pre
+if ($pre) {
+  $version += "-" + $pre
 }
 
 $ikvm_args = @(
-    "-target:library",
-    "-classloader:ikvm.runtime.AppDomainAssemblyClassLoader",
-    "-keyfile:..\featureide.snk",
-    "-version:$assemblyversion",
-    "-fileversion:$version",
-    "{", , "org.sat4j.core.jar", "}",
-    "{", "org.sat4j.pb.jar", "}"
+  "-target:library",
+  "-classloader:ikvm.runtime.AppDomainAssemblyClassLoader",
+  "-keyfile:..\featureide.snk",
+  "-version:$assemblyversion",
+  "-fileversion:$version",
+  "{", , "org.sat4j.core.jar", "}",
+  "{", "org.sat4j.pb.jar", "}"
 )
 
 Write-Output "Compiling jars" | Out-Host
