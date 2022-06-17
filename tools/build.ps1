@@ -21,7 +21,12 @@ $version = $version -replace "^v?",""
 $major, $minor, $patch = $version.Split('-')[0].Split('.')
 $jarVersion = $version
 $assemblyversion = "$major.0.0.0"
-$jarVersion = "$major.$minor.$($patch.Substring(0, $patch.Length -2))"
+
+if ($patch.Length -ge 3) {
+  $patch = $patch.Substring(0, $patch.Length -2)
+}
+
+$jarVersion = "$major.$minor.$patch"
 
 if (Test-Path $target) {
   Remove-Item $target -Recurse -Force
