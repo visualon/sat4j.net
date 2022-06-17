@@ -2,14 +2,7 @@
 
 param(
   [Parameter()]
-  [string] $version = "2.3.6",
-  [Parameter()]
-  [string] $assemblyversion = "2.0.0",
-  [Parameter()]
-  [string] $pre = $null,
-
-  [Parameter()]
-  [switch] $all
+  [string] $version = "2.3.600"
 )
 
 $ErrorActionPreference = 'Stop'
@@ -17,6 +10,16 @@ $ProgressPreference = 'SilentlyContinue'
 $PSDefaultParameterValues['*:ErrorAction'] = 'Stop'
 
 $target = "bin"
+
+if ($env:GITHUB_REF_TYPE -eq 'tag' ) {
+  $version = $env:GITHUB_REF_NAME
+}
+
+$parts = $version.Split('.')
+
+$sat4jVersion = $version
+$assemblyversion = "$($parts[0]).0.0.0"
+$sat4jVersion = "$($parts[0]).$($parts[1]).$($parts[2].Substring(0, $parts[2].Length -2))"
 
 if (Test-Path $target) {
   Remove-Item $target -Recurse -Force
@@ -38,9 +41,9 @@ function get-jar {
     [ValidateSet("org.sat4j.core", "org.sat4j.pb")]
     [string] $name
   )
-  $file = "$env:TEMP/${name}-${version}.jar"
+  $file = "$env:TEMP/${name}-${sat4jVersion}.jar"
   if (!(Test-Path $file)) {
-    Invoke-WebRequest -URI "$baseUri/org.ow2.sat4j.core/$version/org.ow2.sat4j.core-$version.jar" -OutFile $file
+    Invoke-WebRequest -URI "$baseUri/org.ow2.sat4j.core/$sat4jVersion/org.ow2.sat4j.core-$sat4jVersion.jar" -OutFile $file
   }
 }
 
@@ -52,8 +55,8 @@ function build-assembly {
   )
 
   $tgt = New-Item $target/$tfm -ItemType Directory -Force
-  Copy-Item $env:TEMP/org.sat4j.core-${version}.jar -Destination "$tgt/org.sat4j.core.jar"
-  Copy-Item $env:TEMP/org.sat4j.pb-${version}.jar -Destination "$tgt/org.sat4j.pb.jar"
+  Copy-Item $env:TEMP/org.sat4j.core-${sat4jVersion}.jar -Destination "$tgt/org.sat4j.core.jar"
+  Copy-Item $env:TEMP/org.sat4j.pb-${sat4jVersion}.jar -Destination "$tgt/org.sat4j.pb.jar"
   Copy-Item tools/ikvm/$tfm/* -Destination $tgt -Recurse
 
   $ikvm_args = @(
@@ -82,7 +85,7 @@ function build-assembly {
   }
 }
 
-Write-Output "Downloading jars" | Out-Host
+Write-Output "Downloading jars for version $sat4jVersion" | Out-Host
 get-jar -name org.sat4j.core
 get-jar -name org.sat4j.pb
 
@@ -92,7 +95,7 @@ if ($pre) {
 }
 
 
-Write-Output "Compiling jars" | Out-Host
+Write-Output "Compiling jars for version $version" | Out-Host
 
 build-assembly -tfm net461
 
