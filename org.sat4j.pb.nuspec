@@ -23,6 +23,6 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="bin\org.sat4j.pb.dll" target="lib\net461" />
+        <file src="bin\**\org.sat4j.pb.dll" target="lib" />
     </files>
 </package>
