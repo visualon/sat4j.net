@@ -41,7 +41,7 @@ $ikvm_args = @(
 Write-Output "Compiling jars" | Out-Host
 
 Push-Location bin
-ikvmc $ikvm_args
+./bin/ikvmc $ikvm_args
 ThrowOnNativeFailure
 Pop-Location
 
