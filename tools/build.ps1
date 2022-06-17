@@ -48,19 +48,33 @@ function build-assembly {
   param (
     [Parameter(Mandatory)]
     [ValidateSet("net461", "netcoreapp3.1")]
-    [string] $tfm,
-
-    [Parameter(Mandatory)]
-    [string[]] $ikvm_args
+    [string] $tfm
   )
-  New-Item $target/$tfm -ItemType Directory -Force | Out-Null
-  Copy-Item $env:TEMP/org.sat4j.core-${version}.jar -Destination "$target/$tfm/org.sat4j.core.jar"
-  Copy-Item $env:TEMP/org.sat4j.pb-${version}.jar -Destination "$target/$tfm/org.sat4j.pb.jar"
-  $ikvm = Resolve-Path ./tools/ikvm/$tfm
+
+  $tgt = New-Item $target/$tfm -ItemType Directory -Force
+  Copy-Item $env:TEMP/org.sat4j.core-${version}.jar -Destination "$tgt/org.sat4j.core.jar"
+  Copy-Item $env:TEMP/org.sat4j.pb-${version}.jar -Destination "$tgt/org.sat4j.pb.jar"
+  Copy-Item tools/ikvm/$tfm/* -Destination $tgt -Recurse
+
+  $ikvm_args = @(
+    "-target:library",
+    "-classloader:ikvm.runtime.AppDomainAssemblyClassLoader",
+    "-keyfile:../../featureide.snk",
+    "-version:$assemblyversion",
+    "-fileversion:$version"
+  )
+
+  if ($tfm -eq "netcoreapp3.1") {
+    $ikvm_args += "-nostdlib", "-r:./refs/*.dll"
+  }
+
+
+  $ikvm_args += "{", "org.sat4j.core.jar", "}"
+  $ikvm_args += "{", "org.sat4j.pb.jar", "}"
 
   try {
-    Push-Location $target/$tfm
-    . $ikvm/ikvmc $ikvm_args
+    Push-Location $tgt
+    . ./ikvmc $ikvm_args
     ThrowOnNativeFailure
   }
   finally {
@@ -77,22 +91,13 @@ if ($pre) {
   $version += "-" + $pre
 }
 
-$ikvm_args = @(
-  "-target:library",
-  "-classloader:ikvm.runtime.AppDomainAssemblyClassLoader",
-  "-keyfile:../../featureide.snk",
-  "-version:$assemblyversion",
-  "-fileversion:$version",
-  "{", , "org.sat4j.core.jar", "}",
-  "{", "org.sat4j.pb.jar", "}"
-)
 
 Write-Output "Compiling jars" | Out-Host
 
-build-assembly -tfm net461 -ikvm_args $ikvm_args
+build-assembly -tfm net461
 
 if ($all) {
-  build-assembly -tfm netcoreapp3.1 -ikvm_args $ikvm_args
+  build-assembly -tfm netcoreapp3.1
 }
 
 Write-Output "Packing files" | Out-Host

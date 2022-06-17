@@ -5,8 +5,6 @@ on:
 
 env:
   DRY_RUN: ${{ github.ref != 'refs/heads/main' }}
-  IKVM_VERSION: 8.2.0-prerelease.809 # renovate: datasource=nuget depName=IKVM
-
 
 jobs:
   build:

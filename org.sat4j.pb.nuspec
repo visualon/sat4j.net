@@ -1,28 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
-    <metadata minClientVersion="2.12">
-        <id>org.sat4j.pb</id>
-        <version>$version$</version>
-        <title>Sat4j Pseudo</title>
-        <authors>Michael Kriese</authors>
-        <owners>VisualOn GmbH</owners>
-        <license type="expression">EPL-1.0</license>
-        <projectUrl>https://sat4j.org</projectUrl>
-        <repository type="git" url="https://github.com/visualon/sat4j.net" />
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>
-            Sat4j is a full featured boolean reasoning library designed to bring state-of-the-art SAT technologies to the Java Virtual Machine.
+  <metadata>
+    <id>org.sat4j.pb</id>
+    <version>$version$</version>
+    <title>Sat4j Pseudo</title>
+    <authors>Michael Kriese</authors>
+    <owners>VisualOn GmbH</owners>
+    <license type="expression">EPL-1.0</license>
+    <projectUrl>https://sat4j.org</projectUrl>
+    <repository type="git" url="https://github.com/visualon/sat4j.net" />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+        Sat4j is a full featured boolean reasoning library designed to bring state-of-the-art SAT technologies to the Java Virtual Machine.
 
-            This is the IKVM version; which is to say that this is compiled from Java to .NET
-        </description>
-        <releaseNotes></releaseNotes>
-        <tags>IKVM.NET Java .NET SAT Sat4j</tags>
-        <dependencies>
-            <dependency id="IKVM" version="8.2.0-prerelease.809" />
-            <dependency id="org.sat4j.core" version="$version$" />
-        </dependencies>
-    </metadata>
-    <files>
-        <file src="bin\**\org.sat4j.pb.dll" target="lib" />
-    </files>
+        This is the IKVM version; which is to say that this is compiled from Java to .NET
+    </description>
+    <releaseNotes></releaseNotes>
+    <tags>IKVM.NET Java .NET SAT Sat4j</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.1">
+        <dependency id="IKVM" version="8.2.0-prerelease0911" />
+        <dependency id="org.sat4j.core" version="$version$" />
+      </group>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="IKVM" version="8.2.0-prerelease0911" />
+        <dependency id="org.sat4j.core" version="$version$" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\**\org.sat4j.pb.dll" target="lib" />
+  </files>
 </package>
