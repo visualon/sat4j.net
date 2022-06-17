@@ -40,10 +40,14 @@ $ikvm_args = @(
 
 Write-Output "Compiling jars" | Out-Host
 
-Push-Location bin
-./bin/ikvmc $ikvm_args
-ThrowOnNativeFailure
-Pop-Location
+try {
+  Push-Location bin
+  ../bin/ikvmc $ikvm_args
+  ThrowOnNativeFailure
+}
+finally {
+  Pop-Location
+}
 
 Write-Output "Packing files" | Out-Host
 
