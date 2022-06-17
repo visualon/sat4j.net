@@ -3,9 +3,6 @@ name: build
 on:
   push:
 
-env:
-  DRY_RUN: ${{ github.ref != 'refs/heads/main' }}
-
 jobs:
   build:
     runs-on: windows-latest
@@ -26,8 +23,13 @@ jobs:
           path: bin/*.nupkg
 
       - name: deploy
-        if: ${{ env.GITHUB_REF_TYPE == 'tag' }}
-        run: nuget push -SkipDuplicate -Source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json ${{ github.token }} *.nupkg
-        working-directory: bin
+        if: ${{ github.ref_type == 'tag' }}
+        run: |
+          find bin -name '*.nupkg' -exec dotnet nuget push {} -s $GITHUB_SOURCE -k $GITHUB_TOKEN --skip-duplicate --force-english-output \;
+          find bin -name '*.nupkg' -exec dotnet nuget push {} -k $NUGET_KEY --skip-duplicate --force-english-output \;
+        shell: bash
+        env:
+          GITHUB_SOURCE: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
 
