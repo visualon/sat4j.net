@@ -2,7 +2,7 @@
 
 param(
   [Parameter()]
-  [string] $version = "2.3.600"
+  [string] $version = "2.3.6"
 )
 
 $ErrorActionPreference = 'Stop'
@@ -19,9 +19,9 @@ if ($env:GITHUB_REF_TYPE -eq 'tag' ) {
 $version = $version -replace "^v?",""
 
 $major, $minor, $patch = $version.Split('-')[0].Split('.')
-$sat4jVersion = $version
+$jarVersion = $version
 $assemblyversion = "$major.0.0.0"
-$sat4jVersion = "$major.$minor.$($patch.Substring(0, $patch.Length -2))"
+$jarVersion = "$major.$minor.$($patch.Substring(0, $patch.Length -2))"
 
 if (Test-Path $target) {
   Remove-Item $target -Recurse -Force
@@ -40,13 +40,22 @@ $baseUri = "https://repository.ow2.org/nexus/service/local/repositories/releases
 function get-jar {
   param (
     [Parameter(Mandatory)]
-    [ValidateSet("org.sat4j.core", "org.sat4j.pb")]
+    [ValidateSet("core", "pb")]
     [string] $name
   )
-  $file = "$env:TEMP/${name}-${sat4jVersion}.jar"
+  $file = "$env:TEMP/org.sat4j.${name}-${jarVersion}.jar"
   if (!(Test-Path $file)) {
-    Invoke-WebRequest -URI "$baseUri/org.ow2.sat4j.core/$sat4jVersion/org.ow2.sat4j.core-$sat4jVersion.jar" -OutFile $file
+    Invoke-WebRequest -URI "$baseUri/org.ow2.sat4j.$name/$jarVersion/org.ow2.sat4j.$name-$jarVersion.jar" -OutFile $file
   }
+}
+
+function copy-jar {
+  param (
+    [Parameter(Mandatory)]
+    [ValidateSet("core", "pb")]
+    [string] $name
+  )
+  Copy-Item $env:TEMP/org.sat4j.$name-${jarVersion}.jar -Destination "$tgt/org.sat4j.$name.jar"
 }
 
 function build-assembly {
@@ -57,8 +66,8 @@ function build-assembly {
   )
 
   $tgt = New-Item $target/$tfm -ItemType Directory -Force
-  Copy-Item $env:TEMP/org.sat4j.core-${sat4jVersion}.jar -Destination "$tgt/org.sat4j.core.jar"
-  Copy-Item $env:TEMP/org.sat4j.pb-${sat4jVersion}.jar -Destination "$tgt/org.sat4j.pb.jar"
+  copy-jar -name core
+  copy-jar -name pb
   Copy-Item tools/ikvm/$tfm/* -Destination $tgt -Recurse
 
   $ikvm_args = @(
@@ -87,15 +96,9 @@ function build-assembly {
   }
 }
 
-Write-Output "Downloading jars for version $sat4jVersion" | Out-Host
-get-jar -name org.sat4j.core
-get-jar -name org.sat4j.pb
-
-
-if ($pre) {
-  $version += "-" + $pre
-}
-
+Write-Output "Downloading jars for version $jarVersion" | Out-Host
+get-jar -name core
+get-jar -name pb
 
 Write-Output "Compiling jars for version $version" | Out-Host
 
