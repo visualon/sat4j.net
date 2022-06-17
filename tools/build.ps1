@@ -8,9 +8,6 @@ param(
 # renovate: datasource=maven depName=sat4j packageName=org.ow2.sat4j:org.ow2.sat4j.pom
 $SAT4J_VERSION = "2.3.6"
 
-if ($null -eq $version) {
-  $version = $SAT4J_VERSION
-}
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
@@ -20,6 +17,10 @@ $target = "bin"
 
 if ($env:GITHUB_REF_TYPE -eq 'tag' ) {
   $version = $env:GITHUB_REF_NAME
+}
+
+if ($null -eq $version) {
+  $version = $SAT4J_VERSION
 }
 
 # trim leading v
