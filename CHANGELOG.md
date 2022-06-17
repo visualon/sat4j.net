@@ -13,16 +13,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- use new IKVM 8.2 beta
-- target net461 (required by IKVM)
-- require nuget v4.3
+- Release with github actions
+- Use new IKVM 8.2 beta
+- Target net461 (required by IKVM)
+- Require nuget v4.3
 
 ## [2.3.6] - 2020-12-23
 
 ### Changed
 
 - Updated nuspec file.
-- Release with github actions
 - Update Sat4j to 2.3.6
 
 ## [2.3.5] - 2012-06-21
