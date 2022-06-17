@@ -9,7 +9,9 @@
 This is the IKVM version; which is to say that this is compiled from Java to .NET
 
 ## Changes
-See [Changelog](CHANGELOG.md)
+
+See [Releases](https://github.com/visualon/sat4j.net/releases)
 
 ## License
+
 [Eclipse Public License 1.0](LICENSE)
