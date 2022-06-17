@@ -2,7 +2,7 @@
 
 param(
   [Parameter()]
-  [string]  $version = $null
+  [string] $version
 )
 
 # renovate: datasource=maven depName=sat4j packageName=org.ow2.sat4j:org.ow2.sat4j.pom
@@ -19,7 +19,7 @@ if ($env:GITHUB_REF_TYPE -eq 'tag' ) {
   $version = $env:GITHUB_REF_NAME
 }
 
-if ($null -eq $version) {
+if (!$version) {
   $version = $SAT4J_VERSION
 }
 
