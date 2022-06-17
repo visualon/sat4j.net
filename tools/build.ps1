@@ -15,11 +15,10 @@ if ($env:GITHUB_REF_TYPE -eq 'tag' ) {
   $version = $env:GITHUB_REF_NAME
 }
 
-$parts = $version.Split('.')
-
+$major, $minor, $patch = $version.Split('-')[0].Split('.')
 $sat4jVersion = $version
-$assemblyversion = "$($parts[0]).0.0.0"
-$sat4jVersion = "$($parts[0]).$($parts[1]).$($parts[2].Substring(0, $parts[2].Length -2))"
+$assemblyversion = "$major.0.0.0"
+$sat4jVersion = "$major.$minor.$($patch.Substring(0, $patch.Length -2))"
 
 if (Test-Path $target) {
   Remove-Item $target -Recurse -Force
@@ -98,10 +97,7 @@ if ($pre) {
 Write-Output "Compiling jars for version $version" | Out-Host
 
 build-assembly -tfm net461
-
-if ($all) {
-  build-assembly -tfm netcoreapp3.1
-}
+build-assembly -tfm netcoreapp3.1
 
 Write-Output "Packing files" | Out-Host
 
