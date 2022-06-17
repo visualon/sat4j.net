@@ -2,10 +2,15 @@
 
 param(
   [Parameter()]
-  [string]
-  # renovate: datasource=maven depName=sat4j packageName=org.ow2.sat4j:org.ow2.sat4j.pom
-  $version = "2.3.6"
+  [string]  $version = $null
 )
+
+# renovate: datasource=maven depName=sat4j packageName=org.ow2.sat4j:org.ow2.sat4j.pom
+$SAT4J_VERSION = "2.3.6"
+
+if ($null -eq $version) {
+  $version = $SAT4J_VERSION
+}
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
