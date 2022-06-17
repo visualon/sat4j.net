@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Org.Sat4j</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mono.Math.Port" Version="1.0.0" />
+    <ProjectReference Include="..\Sharpen\Sharpen.csproj" />
+    <ProjectReference Include="..\Sat4j.Compat\Sat4j.Compat.csproj" />
+  </ItemGroup>
+
+</Project>
