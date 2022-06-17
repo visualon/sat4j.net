@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - use new IKVM 8.2 beta
 - target net461 (required by IKVM)
+- require nuget v4.3
 
 ## [2.3.6] - 2020-12-23
 
