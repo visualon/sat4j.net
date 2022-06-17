@@ -15,6 +15,9 @@ if ($env:GITHUB_REF_TYPE -eq 'tag' ) {
   $version = $env:GITHUB_REF_NAME
 }
 
+# trim leading v
+$version = $version -replace "^v?",""
+
 $major, $minor, $patch = $version.Split('-')[0].Split('.')
 $sat4jVersion = $version
 $assemblyversion = "$major.0.0.0"
