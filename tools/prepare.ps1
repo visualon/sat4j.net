@@ -9,9 +9,11 @@ $url = "https://github.com/ikvm-revived/ikvm/releases/download/${IKVM_VERSION}/I
 $file = "./bin/ikvm-${IKVM_VERSION}.zip"
 $target = "./bin"
 
+New-Item $target -ItemType Directory -Force | Out-Null
+
 if (!(Test-Path $file)) {
   Invoke-WebRequest $url -OutFile $file
   Expand-Archive -Path $file -DestinationPath $target
 }
 
-./bin/ikvmc --version
+./bin/ikvm -version
