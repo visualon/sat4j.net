@@ -3,6 +3,10 @@
   "extends": ["local>visualon/renovate-config"],
   "packageRules": [
     {
+      "matchPackageNames": ["sat4j"],
+      "registryUrls": ["https://repository.ow2.org/nexus/content/repositories/releases"]
+    },
+    {
       "description": "Don't automerge until we've good tests",
       "matchPackageNames": ["IKVM", "sat4j"],
       "automerge": false

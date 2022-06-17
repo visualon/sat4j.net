@@ -2,7 +2,9 @@
 
 param(
   [Parameter()]
-  [string] $version = "2.3.6"
+  [string]
+  # renovate: datasource=maven depName=sat4j packageName=org.ow2.sat4j:org.ow2.sat4j.pom
+  $version = "2.3.6"
 )
 
 $ErrorActionPreference = 'Stop'
@@ -16,14 +18,14 @@ if ($env:GITHUB_REF_TYPE -eq 'tag' ) {
 }
 
 # trim leading v
-$version = $version -replace "^v?",""
+$version = $version -replace "^v?", ""
 
 $major, $minor, $patch = $version.Split('-')[0].Split('.')
 $jarVersion = $version
 $assemblyversion = "$major.0.0.0"
 
 if ($patch.Length -ge 3) {
-  $patch = $patch.Substring(0, $patch.Length -2)
+  $patch = $patch.Substring(0, $patch.Length - 2)
 }
 
 $jarVersion = "$major.$minor.$patch"
@@ -40,7 +42,7 @@ function ThrowOnNativeFailure {
 }
 
 
-$baseUri = "https://repository.ow2.org/nexus/service/local/repositories/releases/content/org/ow2/sat4j"
+$baseUri = "https://repository.ow2.org/nexus/content/repositories/releases/org/ow2/sat4j"
 
 function get-jar {
   param (
